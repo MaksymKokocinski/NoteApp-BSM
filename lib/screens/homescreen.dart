@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:noteapp/models/note.dart';
 import 'package:noteapp/providers/Databasehelper.dart';
 import 'package:noteapp/screens/changelogin.dart';
-import 'package:noteapp/models/note.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.note}) : super(key: key);
-  final String note;
+  HomeScreen({Key key, this.title}) : super(key: key);
+  final String title;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -23,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     DatabaseHelper.instance.queryAllRows().then((value) {
       setState(() {
         value.forEach((element) {
-          notesList.add(Note(id: element['id'], note: element["note"]));
+          notesList.add(Note(id: element['id'], title: element["title"]));
         });
       });
     }).catchError((error) {
@@ -66,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         margin: EdgeInsets.all(15),
         padding: EdgeInsets.all(15),
-        height: 200.0,
+        height: 550.0,
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(15)),
         child: Column(
@@ -92,10 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 // },
               ),
             ),
+            SizedBox(
+              height: 20.0,
+            ),
             FlatButton(
                 onPressed: (_addToDb),
                 color: Colors.white,
-                child: Text('Save Note',
+                child: Text('Add Note',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -111,8 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         if (index == notesList.length) return null;
                         return ListTile(
-                            title: Text(notesList[index].note),
-                            leading: Text(notesList[index].id.toString()),
+                            title: Text(notesList[index].title),
+                            //leading: Text(notesList[index].id.toString()),
                             trailing: IconButton(
                               icon: Icon(Icons.delete),
                               onPressed: () => _deleteTask(notesList[index].id),
@@ -135,9 +137,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _addToDb() async {
     String note = textController.text;
-    var id = await DatabaseHelper.instance.insert(Note(note: note));
+    var id = await DatabaseHelper.instance.insert(Note(title: note));
     setState(() {
-      notesList.insert(0, Note(id: id, note: note));
+      notesList.insert(0, Note(id: id, title: note));
     });
   }
 }

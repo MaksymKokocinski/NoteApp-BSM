@@ -1,20 +1,22 @@
-import 'package:sqflite/sqflite.dart';
+//import 'package:sqflite/sqflite.dart';
 import 'package:noteapp/models/note.dart';
 import 'package:path/path.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "notes2.db";
+  static final _databaseName = "notestest2.db";
   static final _databaseVersion = 1;
 
-  static final table = 'notes2';
+  static final table = 'notes';
 
   static final columnId = 'id';
-  static final columntitle = 'note';
+  static final columnTitle = 'title';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database _database;
+
   Future<Database> get database async {
     if (_database != null) return _database;
     _database = await _initDatabase();
@@ -24,20 +26,21 @@ class DatabaseHelper {
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion, onCreate: _onCreate);
+        password: "my password",
+        version: _databaseVersion,
+        onCreate: _onCreate);
   }
 
   //SQL code to create the database table
   Future _onCreate(Database db, int version) async {
-    await db.execute('''CREATE TABLE $table(
-      $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
-      $columntitle FLOAT NOT NULL
-    )''');
+    await db.execute('''
+    CREATE TABLE $table( $columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnTitle TEXT NOT NULL)
+    ''');
   }
 
-  Future<int> insert(Note title) async {
+  Future<int> insert(Note note) async {
     Database db = await instance.database;
-    var res = await db.insert(table, title.toMap());
+    var res = await db.insert(table, note.toMap());
     return res;
   }
 

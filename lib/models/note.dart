@@ -1,14 +1,14 @@
 //konstruktor
 class Note {
   int id;
-  final String note;
+  final String title;
 
   Note({
     this.id,
-    this.note,
+    this.title,
   });
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'title': note};
+    return {'id': id, 'title': title};
   }
 }
