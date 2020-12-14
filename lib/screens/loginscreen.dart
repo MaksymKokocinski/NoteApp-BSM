@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noteapp/screens/homescreen.dart';
+import 'package:encrypt/encrypt.dart' as enc;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -101,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
   // These functions can self contain any user auth logic required, they all have access to  _password
 
   void _loginPressed() {
+    _encryption();
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomeScreen()));
     print('The user wants to login with $_password');
@@ -110,6 +112,20 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomeScreen()));
     print('The user wants to create an accoutn with $_password');
+  }
+
+  void _encryption() async {
+    final key = enc.Key.fromLength(32);
+    final iv = enc.IV.fromLength(16);
+    final encrypter = enc.Encrypter(enc.AES(key));
+
+    final encrypted = encrypter.encrypt(_password, iv: iv);
+    final decrypted = encrypter.decrypt(encrypted, iv: iv);
+
+    print(decrypted);
+    print(encrypted.bytes);
+    print(encrypted.base16);
+    print(encrypted.base64);
   }
 }
 // to use when ready

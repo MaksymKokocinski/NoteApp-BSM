@@ -2,15 +2,18 @@
 import 'package:noteapp/models/note.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
+import 'package:crypt/crypt.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "notestest2.db";
+  static final _databaseName = "notestest3.db";
   static final _databaseVersion = 1;
 
   static final table = 'notes';
 
   static final columnId = 'id';
   static final columnTitle = 'title';
+
+  static final d1 = Crypt.sha512('password');
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -26,9 +29,7 @@ class DatabaseHelper {
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        password: "my password",
-        version: _databaseVersion,
-        onCreate: _onCreate);
+        password: '$d1', version: _databaseVersion, onCreate: _onCreate);
   }
 
   //SQL code to create the database table
