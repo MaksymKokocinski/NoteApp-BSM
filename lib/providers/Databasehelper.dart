@@ -5,7 +5,7 @@ import 'package:sqflite_sqlcipher/sqflite.dart';
 import 'package:crypt/crypt.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "notestest3.db";
+  static final _databaseName = "notestest5.db";
   static final _databaseVersion = 1;
 
   static final table = 'notes';
@@ -13,7 +13,8 @@ class DatabaseHelper {
   static final columnId = 'id';
   static final columnTitle = 'title';
 
-  static final d1 = Crypt.sha512('password');
+  //static final d1 = Crypt.sha512('password');
+  static final d1 = ('password');
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();

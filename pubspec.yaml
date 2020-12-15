@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  shared_preferences: ^0.5.12+4
   crypt: ^3.0.1
   encrypt: ^4.1.0
   rsa_encrypt: ^1.0.5
