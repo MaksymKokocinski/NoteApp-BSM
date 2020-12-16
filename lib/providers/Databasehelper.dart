@@ -2,7 +2,6 @@
 import 'package:noteapp/models/note.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
-import 'package:crypt/crypt.dart';
 
 class DatabaseHelper {
   static final _databaseName = "notestest5.db";
