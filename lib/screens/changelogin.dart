@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:crypt/crypt.dart';
 
 class NewPassword extends StatefulWidget {
   @override
@@ -64,7 +66,24 @@ class _NewPasswordState extends State<NewPassword> {
   // These functions can self contain any user auth logic required, they all have access to  _password
 
   void _createAccountPressed() {
+    _hashing();
+    _setPasswordFromSharedPref();
     Navigator.pop(context);
     print('The user wants to change password with $_password');
+  }
+
+  Future<bool> _setPasswordFromSharedPref() async {
+    final prefs = await SharedPreferences.getInstance();
+    final passStored = prefs.setString('passwordStored', _password);
+    //await prefs.setString('startupNumber', _password);
+    print('password stored : $passStored and $_password');
+    return prefs.commit();
+  }
+
+  void _hashing() async {
+    final hashed =
+        Crypt.sha256(_password, rounds: 10000, salt: 'abcdefghijklmop');
+    String hashed2 = hashed.toString();
+    _password = hashed2;
   }
 }

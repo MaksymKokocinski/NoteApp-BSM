@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //logging out
+          Navigator.pop(context);
           print('Logged out');
         },
         child: Icon(

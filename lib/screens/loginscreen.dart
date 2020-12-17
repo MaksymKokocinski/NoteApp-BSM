@@ -170,6 +170,7 @@ class _LoginPageState extends State<LoginPage> {
     if (await (_isPasswordStored()) == false) {
       print('You cant register you already have an account');
     } else {
+      _hashing();
       _setPasswordFromSharedPref();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -195,16 +196,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   ///
-  ///Encryption used to encrypt and decrypt password
+  ///Hashing used to hash passwords
   ///
   void _hashing() async {
-    //final hashed = Crypt.sha256(_password, rounds: 10000, salt: 'abcdefghijklmop');
-    final d4 = Crypt.sha256(_password, salt: 'abcdefghijklmop');
-    final e4 = Crypt.sha256(_password, salt: 'abcdefghijklmop');
-
-    //print('c4: $hashed');
-    print('d4 :$d4');
-    print('e4 : $e4');
+    final hashed =
+        Crypt.sha256(_password, rounds: 10000, salt: 'abcdefghijklmop');
+    String hashed2 = hashed.toString();
+    _password = hashed2;
   }
 }
 // to use when ready
