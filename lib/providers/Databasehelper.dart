@@ -1,13 +1,13 @@
 //import 'package:sqflite/sqflite.dart';
 import 'package:noteapp/models/note.dart';
+import 'package:secure_random/secure_random.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypt/crypt.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "notesdb.db";
+  static final _databaseName = "notesdb3.db"; //notesdb.db
   static final _databaseVersion = 1;
 
   static final table = 'notes';
@@ -98,19 +98,19 @@ class DatabaseHelper {
   }
 
   Future<String> _getPasswordFromSharedPref() async {
-    final prefs = await SharedPreferences.getInstance();
-    final passStored = prefs.getString('passwordStored');
-    //await prefs.setString('startupNumber', _password);
-    print('password recived in database : $passStored');
-    d1 = passStored;
-    print(d1);
-    return passStored;
+    var secureRandom = SecureRandom();
+    d1 = (secureRandom.nextString(
+        length: 20,
+        charset:
+            'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#\$%^&*()_+`'));
+    print('password recived : $d1');
+    return d1;
   }
 
   void _hashing() async {
-    final hashed = Crypt.sha256(d1, rounds: 100000, salt: 'abcdefghijklmop');
+    final hashed = Crypt.sha512(d1);
     String hashed2 = hashed.toString();
     d1 = hashed2;
-    print('hassword pashed in database $d1');
+    print('password hashed in ss $d1');
   }
 }

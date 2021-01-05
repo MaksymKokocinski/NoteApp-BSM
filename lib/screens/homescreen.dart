@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noteapp/models/note.dart';
 import 'package:noteapp/providers/Databasehelper.dart';
-import 'package:noteapp/screens/changelogin.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.title}) : super(key: key);
@@ -50,18 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NewPassword()));
-            },
-          )
-        ],
+        actions: [],
       ),
       body: Container(
         margin: EdgeInsets.all(15),

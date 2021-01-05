@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noteapp/screens/loginscreen.dart';
+import 'package:noteapp/screens/biometricscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,7 +8,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //changenotifierprovider need to be done to notify if changes are made in values
-    return MaterialApp(home: LoginPage());
+    return MaterialApp(home: BiometricPage());
   }
 }
